@@ -19,8 +19,7 @@
     <dimen name="detail_radio_group_padding">8dp</dimen>
 
     <!-- Themes: radius of the corners of the notification dropshadow
-         See also: notification_material_rounded_rect_radius
-    -->
+         See also: notification_material_rounded_rect_radius -->
     <dimen name="notification_material_shadow_rounded_rect_radius">0dp</dimen>
 
     <dimen name="zen_mode_panel_radius">@dimen/notification_material_rounded_rect_radius</dimen>
@@ -76,19 +75,24 @@
     <!-- Padding end for weather text -->
     <dimen name="status_bar_weather_padding_end">16dp</dimen>
 
-     <!-- Themes: radius of the corners of the notification dropshadow
-          See also: notification_material_rounded_rect_radius
-     -->
-     <dimen name="notification_material_shadow_rounded_rect_radius">0dp</dimen>
+    <!-- Themes: radius of the corners of the notification dropshadow
+          See also: notification_material_rounded_rect_radius -->
+    <dimen name="notification_material_shadow_rounded_rect_radius">0dp</dimen>
  
-     <dimen name="zen_mode_panel_radius">@dimen/notification_material_rounded_rect_radius</dimen>
+    <dimen name="zen_mode_panel_radius">@dimen/notification_material_rounded_rect_radius</dimen>
  
-     <dimen name="status_bar_expanded_header_elevation">4dp</dimen>
+    <dimen name="status_bar_expanded_header_elevation">4dp</dimen>
  
-     <!-- Side padding for the status bar header -->
-     <dimen name="notification_header_side_padding">@dimen/notification_side_padding</dimen>
- 
-     <!-- Side padding for the Quick Settings panel -->
-     <dimen name="qs_panel_side_padding">@dimen/notification_side_padding</dimen>
+    <!-- Side padding for the status bar header -->
+    <dimen name="notification_header_side_padding">@dimen/notification_side_padding</dimen>
+
+    <!-- Side padding for the Quick Settings panel -->
+    <dimen name="qs_panel_side_padding">@dimen/notification_side_padding</dimen>
+
+    <!-- App circle sidebar -->
+    <dimen name="app_sidebar_trigger_width">12dip</dimen>
+    <dimen name="app_sidebar_listview_width">160dp</dimen>
+    <dimen name="app_sidebar_icon_width">72dp</dimen>
+    <dimen name="app_sidebar_icon_height">72dp</dimen>
      
 </resources>

@@ -1065,6 +1065,7 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         }
 
         updateShowSearchHoldoff();
+		addAppCircleSidebar();
 
         if (mNavigationBarView == null) {
             mNavigationBarView =
