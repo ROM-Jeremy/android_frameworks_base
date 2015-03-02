@@ -3990,6 +3990,12 @@ public final class Settings {
          */
         public static final String HEADS_UP_TOUCH_OUTSIDE = "heads_up_touch_outside";
 
+		/**
+         * Force expanded notifications on all apps that support it.
+         * @hide
+         */
+        public static final String FORCE_EXPANDED_NOTIFICATIONS = "force_expanded_notifications";
+        
         /**
          * The statusbar configuration to be used for its creation in SystemUI
          * Fallback is the config_statusBarComponent value
