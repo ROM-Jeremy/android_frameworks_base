@@ -47,7 +47,6 @@ public class QSConstants {
     public static final String TILE_SCREEN_TIMEOUT = "screen_timeout";
     public static final String TILE_LIVE_DISPLAY = "live_display";
     public static final String TILE_SCREENSHOT = "screenshot";
-    public static final String TILE_SYNC = "sync";
     public static final String TILE_USB_TETHER = "usb_tether";
     public static final String TILE_HEADS_UP = "heads_up";
     public static final String TILE_AMBIENT_DISPLAY = "ambient_display";
