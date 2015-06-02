@@ -43,7 +43,7 @@ public class ConfigSplitHelper {
         }
 
         // Split out the config to work with and add to the list
-        for (String configValue : config.split("\\" + ActionConstants.ACTION_DELIMITER)) {
+        for (String configValue : config.split("\\" + OwnActionConstants.ACTION_DELIMITER)) {
             counter++;
             if (counter == 1) {
                 actionConfig = new ActionConfig(configValue,
@@ -81,13 +81,13 @@ public class ConfigSplitHelper {
 
         for (int i = 0; i < actionConfigs.size(); i++) {
             if (i != 0) {
-                finalConfig += ActionConstants.ACTION_DELIMITER;
+                finalConfig += OwnActionConstants.ACTION_DELIMITER;
             }
             actionConfig = actionConfigs.get(i);
-            finalConfig += actionConfig.getClickAction() + ActionConstants.ACTION_DELIMITER;
+            finalConfig += actionConfig.getClickAction() + OwnActionConstants.ACTION_DELIMITER;
             if (!isShortcut) {
                 finalConfig += actionConfig.getLongpressAction()
-                    + ActionConstants.ACTION_DELIMITER;
+                    + OwnActionConstants.ACTION_DELIMITER;
             }
             finalConfig += actionConfig.getIcon();
         }
