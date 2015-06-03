@@ -94,6 +94,6 @@
   <string name="interruption_level_silent">Stil</string>
   <string name="zen_silent_with_warning">Geen onderbrekingen, behalve alarmen.</string>
   <string name="quick_settings_remove">Tegel verwijderen</string>
-    <string name="quick_settings_navbar_on">NavBar Ingeschakeld</string>
-    <string name="quick_settings_navbar_off">NavBar Uitgeschakeld</string
+  <string name="quick_settings_navbar_on">NavBar Ingeschakeld</string>
+  <string name="quick_settings_navbar_off">NavBar Uitgeschakeld</string>
 </resources>
