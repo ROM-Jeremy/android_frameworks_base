@@ -880,7 +880,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                     UserHandle.USER_ALL);
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.NAVIGATION_BAR_WIDTH), false, this,
-                    UserHandle.USER_ALL)
+                    UserHandle.USER_ALL);
             updateSettings();
         }
 
