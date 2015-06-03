@@ -172,4 +172,8 @@
     <!-- Power menu on navring targets -->
     <string name="navring_action_power_menu">Power Menu</string>
 
+    <!-- NavBar tile -->
+    <string name="quick_settings_navbar_on">NavBar On</string>
+    <string name="quick_settings_navbar_off">NavBar Off</string>
+
 </resources>
