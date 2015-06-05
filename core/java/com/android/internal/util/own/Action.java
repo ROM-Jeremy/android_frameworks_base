@@ -39,6 +39,8 @@ import android.provider.Settings;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.InputDevice;
+import android.view.IWindowManager;
+
 import android.view.KeyCharacterMap;
 import android.view.KeyEvent;
 import android.view.WindowManagerGlobal;
@@ -101,6 +103,14 @@ public class Action {
                     || action.equals(OwnActionConstants.ACTION_MENU_BIG)) {
                 triggerVirtualKeypress(KeyEvent.KEYCODE_MENU, isLongpress);
                 return;
+            } else if (action.equals(OwnActionConstants.ACTION_POWER_MENU)) {
+                try {
+                    IWindowManager windowManagerService = IWindowManager.Stub.asInterface(
+                    ServiceManager.getService(Context.WINDOW_SERVICE));
+                    windowManagerService.toggleGlobalMenu();
+                } catch (RemoteException e) {
+                }
+                return;
             } else if (action.equals(OwnActionConstants.ACTION_IME_NAVIGATION_LEFT)) {
                 triggerVirtualKeypress(KeyEvent.KEYCODE_DPAD_LEFT, isLongpress);
                 return;
@@ -116,6 +126,33 @@ public class Action {
             } else if (action.equals(OwnActionConstants.ACTION_POWER)) {
                 PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
                 pm.goToSleep(SystemClock.uptimeMillis());
+                return;
+            } else if (action.equals(OwnActionConstants.ACTION_KILL)) {
+                if (isKeyguardShowing) {
+                    return;
+                }
+                try {
+                    barService.toggleKillApp();
+                } catch (RemoteException e) {
+                }
+                return;
+            } else if (action.equals(OwnActionConstants.ACTION_LAST_APP)) {
+                if (isKeyguardShowing) {
+                    return;
+                }
+                try {
+                    barService.toggleLastApp();
+                } catch (RemoteException e) {
+                }
+                return;
+            } else if (action.equals(OwnActionConstants.ACTION_RECENTS)) {
+                if (isKeyguardShowing) {
+                    return;
+                }
+                try {
+                    barService.toggleRecentApps();
+                } catch (RemoteException e) {
+                }
                 return;
             } else if (action.equals(OwnActionConstants.ACTION_IME)) {
                 if (isKeyguardShowing) {

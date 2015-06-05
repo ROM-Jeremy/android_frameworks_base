@@ -77,6 +77,7 @@ import android.media.session.MediaController;
 import android.media.session.MediaSession;
 import android.media.session.MediaSessionManager;
 import android.media.session.PlaybackState;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -465,6 +466,25 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                     Settings.System.NAVBAR_LEFT_IN_LANDSCAPE), false, this, UserHandle.USER_ALL);
             resolver.registerContentObserver(Settings.Secure.getUriFor(
                     Settings.Secure.RECENTS_LONG_PRESS_ACTIVITY), false, this);
+            // Pie controls
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.PIE_CONTROLS), false, this, UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.NAVIGATION_BAR_SHOW), false, this, UserHandle.USER_ALL);
+            update();
+        }
+
+        @Override
+        public void onChange(boolean selfChange, Uri uri) {
+            super.onChange(selfChange, uri);
+            // Pie controls
+            if (uri.equals(Settings.System.getUriFor(
+                    Settings.System.PIE_CONTROLS))) {
+                attachPieContainer(isPieEnabled());
+            } else if (uri.equals(Settings.System.getUriFor(
+                    Settings.System.NAVIGATION_BAR_SHOW))) {
+                mNavigationBarOverlay.setIsExpanded(noNavBar());
+            }
             update();
         }
 
@@ -607,6 +627,19 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         mNavigationBarView.setBar(this);
         mNavigationBarView.updateResources(getNavbarThemedResources());
         addNavigationBar(true); // dynamically adding nav bar, reset System UI visibility!
+    }
+
+    // Pie controls
+    private boolean isPieEnabled() {
+        return Settings.System.getIntForUser(mContext.getContentResolver(),
+                Settings.System.PIE_CONTROLS, 0,
+                UserHandle.USER_CURRENT) == 1;
+    }
+
+    private boolean noNavBar() {
+        return Settings.System.getIntForUser(mContext.getContentResolver(),
+                Settings.System.NAVIGATION_BAR_SHOW, 0,
+                UserHandle.USER_CURRENT) == 0;
     }
 
     // ensure quick settings is disabled until the current user makes it through the setup wizard
@@ -962,6 +995,7 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
 
         mNavigationBarView.setDisabledFlags(mDisabled);
         mNavigationBarView.setBar(this);
+        addNavigationBarCallback(mNavigationBarView);
         mNavigationBarView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -969,6 +1003,9 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                 return false;
             }
 		});
+
+        // Setup pie container if enabled
+        attachPieContainer(isPieEnabled());
 
         // figure out which pixel-format to use for the status bar.
         mPixelFormat = PixelFormat.OPAQUE;
@@ -1547,6 +1584,10 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         prepareNavigationBarView(forceReset);
 
         mWindowManager.addView(mNavigationBarView, getNavigationBarLayoutParams());
+
+        // Pie controls
+        mNavigationBarOverlay.setNavigationBar(mNavigationBarView);
+        mNavigationBarOverlay.setIsExpanded(noNavBar());
     }
 
     private void removeNavigationBar() {
@@ -2447,8 +2488,8 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                         | StatusBarManager.DISABLE_RECENT
                         | StatusBarManager.DISABLE_BACK
                         | StatusBarManager.DISABLE_SEARCH)) != 0) {
-            // the nav bar will take care of these
-            if (mNavigationBarView != null) mNavigationBarView.setDisabledFlags(state);
+            // All navigation bar listeners will take care of these
+            propagateDisabledFlags(state);
 
             if ((state & StatusBarManager.DISABLE_RECENT) != 0) {
                 // close recents if it's visible
@@ -3035,6 +3076,8 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         if (mNavigationBarView != null) {
             mNavigationBarView.setNavigationIconHints(hints);
         }
+        propagateNavigationIconHints(hints);
+
         checkBarModes();
     }
 
@@ -3297,9 +3340,8 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         if (DEBUG) {
             Log.d(TAG, (showMenu?"showing":"hiding") + " the MENU button");
         }
-        if (mNavigationBarView != null) {
-            mNavigationBarView.setMenuVisibility(showMenu);
-        }
+
+        propagateMenuVisibility(showMenu);
 
         // See above re: lights-out policy for legacy apps.
         if (showMenu) setLightsOn(true);
@@ -3932,6 +3974,8 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
             mNotificationIconArea.setVisibility(View.INVISIBLE);
             mSystemIconArea.setVisibility(View.INVISIBLE);
         }
+
+        restorePieTriggerMask();
     }
 
     private void removeAllViews(ViewGroup parent) {
