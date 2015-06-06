@@ -210,4 +210,10 @@
   <string name="quick_settings_tile_flashlight_not_title">Zaklamp staat aan</string>
   <string name="quick_settings_tile_flashlight_not_summary">Tik om uit te schakelen</string>
   <string name="storage_sd_dock_card">SD-kaart in dock</string>
+  <string name="global_actions_pie_mode_on_status">SlimPie is AAN</string>
+  <string name="global_actions_pie_mode_off_status">SlimPie is UIT</string>
+  <string name="disable_pie_navigation_error">U kan PIE niet uitschakelen omdat er geen andere navigatie is ingeschakeld. Schakel Navigatie bar in om PIE uit te schakelen</string>
+  <string name="global_actions_nav_bar_mode_on_status">Navigatie bar is AAN</string>
+  <string name="global_actions_nav_bar_mode_off_status">Navigatie bar is UIT</string>
+  <string name="disable_navigation_pie_error">U kan de Navigatie Bar niet uitschakelen omdat er geen andere navigatie is ingeschakeld. Schakel PIE in om de Navigatie bar uit te schakelen.</string>
 </resources>
