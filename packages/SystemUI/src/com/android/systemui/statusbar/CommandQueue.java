@@ -63,7 +63,7 @@ public class CommandQueue extends IStatusBar.Stub {
     private static final int MSG_TOGGLE_LAST_APP                    = 21 << MSG_SHIFT;
     private static final int MSG_TOGGLE_KILL_APP                    = 22 << MSG_SHIFT;
     private static final int MSG_TOGGLE_SCREENSHOT                  = 23 << MSG_SHIFT;
-    private static final int MSG_SET_PIE_TRIGGER_MASK               = 24 << MSG_SHI
+    private static final int MSG_SET_PIE_TRIGGER_MASK               = 24 << MSG_SHIFT;
 
     public static final int FLAG_EXCLUDE_NONE = 0;
     public static final int FLAG_EXCLUDE_SEARCH_PANEL = 1 << 0;

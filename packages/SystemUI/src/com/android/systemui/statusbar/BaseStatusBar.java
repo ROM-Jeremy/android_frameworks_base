@@ -53,7 +53,7 @@ import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
-import android.os.Massenger;
+import android.os.Messenger;
 import android.os.PowerManager;
 import android.os.Process;
 import android.os.RemoteException;
@@ -265,7 +265,7 @@ public abstract class BaseStatusBar extends SystemUI implements
     protected NavigationBarOverlay mNavigationBarOverlay;
 
 	private EdgeGestureManager mEdgeGestureManager;
-    
+	
     // UI-specific methods
 
     /**
@@ -2426,44 +2426,6 @@ public abstract class BaseStatusBar extends SystemUI implements
         }
     };
 
-+    @Override
-+    public void toggleScreenshot() {
-+        int msg = MSG_TOGGLE_SCREENSHOT;
-+        mHandler.removeMessages(msg);
-+        mHandler.sendEmptyMessage(msg);
-+    }
-+
-     protected abstract WindowManager.LayoutParams getSearchLayoutParams(
-             LayoutParams layoutParams);
- 
- @@ -1407,9 +1429,6 @@ public void handleMessage(Message m) {
-                      mSearchPanelView.show(false, true);
-                  }
-                  break;
--             case MSG_SET_PIE_TRIGGER_MASK:
--                 updatePieTriggerMask(m.arg1, m.arg2 != 0);
--                 break;
-              case MSG_TOGGLE_LAST_APP:
-                  if (DEBUG) Slog.d(TAG, "toggle last app");
-                  getLastApp();
- @@ -1418,6 +1437,13 @@ public void handleMessage(Message m) {
-                  if (DEBUG) Slog.d(TAG, "toggle kill app");
-                  mHandler.post(mKillTask);
-                  break;
-+             case MSG_TOGGLE_SCREENSHOT:
-+                 if (DEBUG) Slog.d(TAG, "toggle screenshot");
-+                 takeScreenshot();
-+                 break;
-+             case MSG_SET_PIE_TRIGGER_MASK:
-+                 updatePieTriggerMask(m.arg1, m.arg2 != 0);
-+                 break;
-             }
-         }
-     }
- @@ -2517,6 +2543,88 @@ public void run() {
-         }
-     };
- 
     final Runnable mScreenshotTimeout = new Runnable() {
         @Override
         public void run() {

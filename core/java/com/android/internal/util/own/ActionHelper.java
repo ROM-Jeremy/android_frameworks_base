@@ -86,7 +86,7 @@ public class ActionHelper {
                     Settings.System.NAVIGATION_BAR_CONFIG,
                     UserHandle.USER_CURRENT);
         if (config == null) {
-            config = ActionConstants.NAVIGATION_CONFIG_DEFAULT;
+            config = OwnActionConstants.NAVIGATION_CONFIG_DEFAULT;
         }
         return config;
      }
@@ -95,7 +95,7 @@ public class ActionHelper {
             ArrayList<ActionConfig> actionConfig, boolean reset) {
         String config;
         if (reset) {
-            config = ActionConstants.NAVIGATION_CONFIG_DEFAULT;
+            config = OwnActionConstants.NAVIGATION_CONFIG_DEFAULT;
         } else {
             config = ConfigSplitHelper.setActionConfig(actionConfig, false);
         }
@@ -221,7 +221,7 @@ public class ActionHelper {
 
         if (customIcon != null && customIcon.startsWith(OwnActionConstants.SYSTEM_ICON_IDENTIFIER)) {
             resId = systemUiResources.getIdentifier(customIcon.substring(
-                        ActionConstants.SYSTEM_ICON_IDENTIFIER.length()), "drawable", "android");
+                        OwnActionConstants.SYSTEM_ICON_IDENTIFIER.length()), "drawable", "android");
             if (resId > 0) {
                 return systemUiResources.getDrawable(resId);
             }
