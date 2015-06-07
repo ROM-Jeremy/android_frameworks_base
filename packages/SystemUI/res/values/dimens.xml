@@ -561,4 +561,7 @@
     <!-- Screen pinning inner nav bar outer circle size -->
     <dimen name="screen_pinning_nav_highlight_outer_size">84dp</dimen>
 
+    <!-- The task item height in task list. -->
+    <dimen name="task_manager_item_height">40dip</dimen>
+
 </resources>

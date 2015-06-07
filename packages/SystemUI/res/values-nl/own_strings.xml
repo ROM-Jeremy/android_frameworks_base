@@ -103,4 +103,9 @@
   <string name="pie_phone_status_airplane_mode">Vliegtuigmodes aan</string>
   <string name="pie_phone_status_emergency_only">Alleen noodoproepen</string>
   <string name="app_killed_message">App gesloten</string>
+  <string name="task_manager_title">Task Manager</string>
+  <string name="message_switch_fail">Kan niet naar deze task overgaan, omdat het geen interface heeft.</string>
+  <string name="tasklist_killall">Sluit alles</string>
+  <string name="tasklist_memory_usage">"Totaal vrij geheugen: <xliff:g id="number">%s</xliff:g> / <xliff:g id="name">%s</xliff:g>"</string>
+  <string name="message_keep_one_launcher">1 Home activiteit moet open blijven!</string>
 </resources>
