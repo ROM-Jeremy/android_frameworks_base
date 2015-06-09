@@ -216,4 +216,18 @@
   <string name="global_actions_nav_bar_mode_on_status">Navigatie bar is AAN</string>
   <string name="global_actions_nav_bar_mode_off_status">Navigatie bar is UIT</string>
   <string name="disable_navigation_pie_error">U kan de Navigatie Bar niet uitschakelen omdat er geen andere navigatie is ingeschakeld. Schakel PIE in om de Navigatie bar uit te schakelen.</string>
+  <string name="animation_fade">Vervaag</string>
+  <string name="animation_slide_right">Slide in rechts</string>
+  <string name="animation_slide_left">Slide in links</string>
+  <string name="animation_slide_right_no_fade">Slide in rechts (Niet vervagen)</string>
+  <string name="animation_slide_left_no_fade">Slide in links (Niet vervagen)</string>
+  <string name="animation_slide_up">Slide in van onder</string>
+  <string name="animation_slide_down">Slide in van boven</string>
+  <string name="animation_default">Standaard</string>
+  <string name="animation_translucent">Translucent</string>
+  <string name="animation_grow_shrink">Groei in (Van boven)</string>
+  <string name="animation_grow_shrink_center">Groei in (Vanuit Midden)</string>
+  <string name="animation_grow_shrink_bottom">Groei in (Van onder)</string>
+  <string name="animation_grow_shrink_left">Groei in (Van Links)</string>
+  <string name="animation_grow_shrink_right">Groei in (Van Rechts)</string>
 </resources>
