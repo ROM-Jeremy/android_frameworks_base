@@ -73,4 +73,6 @@ interface IPowerManager
 	String getPowerProfile();
 
     void activityResumed(String componentName);
+ 
+String getSeenWakeLocks();
 }

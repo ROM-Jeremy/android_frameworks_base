@@ -874,6 +874,16 @@ public final class PowerManager {
             return false;
         }
     }
+public String getSeenWakeLocks()
+     {
+	try {
+	    if (mService != null) {
+		return mService.getSeenWakeLocks();
+	    }
+	} catch (RemoteException e) {
+	}
+	return null;
+    }
 
     /**
      * Boost the CPU. Boosts the cpu for the given duration in microseconds.
