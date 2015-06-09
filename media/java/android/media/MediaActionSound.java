@@ -91,6 +91,8 @@ public class MediaActionSound {
 
     private static final int SOUND_NOT_LOADED = -1;
 
+    private static final String PROP_CAMERA_SOUND = "persist.sys.camera-sound";
+
     /**
      * Construct a new MediaActionSound instance. Only a single instance is
      * needed for playing any platform media action sound; you do not need a

@@ -332,17 +332,10 @@ public class InputMethodService extends AbstractInputMethodService {
     private IStatusBarService mStatusBarService;
     private Object mServiceAquireLock = new Object();
 
-    private Object mServiceAquireLock = new Object();
-
     private IEdgeGestureService mEdgeGestureService;
 
     final Insets mTmpInsets = new Insets();
     final int[] mTmpLocation = new int[2];
-
-    int mVolumeKeyCursorControl;
-    private static final int VOLUME_CURSOR_OFF = 0;
-    private static final int VOLUME_CURSOR_ON = 1;
-    private static final int VOLUME_CURSOR_ON_REVERSE = 2;
 
     final ViewTreeObserver.OnComputeInternalInsetsListener mInsetsComputer =
             new ViewTreeObserver.OnComputeInternalInsetsListener() {
