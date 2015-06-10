@@ -53,6 +53,7 @@ public class QSConstants {
     public static final String TILE_SYNC = "sync";
     public static final String TILE_POWER_MENU = "power_menu";
     public static final String TILE_NAVBAR = "toggleNavBar";
+    public static final String TILE_TRDS = "trds";
 
     protected static final ArrayList<String> TILES_AVAILABLE = new ArrayList<String>();
 
@@ -90,5 +91,6 @@ public class QSConstants {
         TILES_AVAILABLE.add(TILE_SYNC);
         TILES_AVAILABLE.add(TILE_POWER_MENU);
         TILES_AVAILABLE.add(TILE_NAVBAR);
+	TILES_AVAILABLE.add(TILE_TRDS);
     }
 }
