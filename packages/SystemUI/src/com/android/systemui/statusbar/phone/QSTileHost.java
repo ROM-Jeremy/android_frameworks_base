@@ -70,6 +70,7 @@ import com.android.systemui.qs.tiles.ScreenshotTile;
 import com.android.systemui.qs.tiles.ScreenTimeoutTile;
 import com.android.systemui.qs.tiles.WifiTile;
 import com.android.systemui.qs.tiles.NavBarTile;
+import com.android.systemui.qs.tiles.TrdsTile;
 import com.android.systemui.settings.CurrentUserTracker;
 import com.android.systemui.statusbar.CustomTileData;
 import com.android.systemui.statusbar.policy.BluetoothController;
@@ -369,6 +370,8 @@ public class QSTileHost implements QSTile.Host {
                 return new PowerMenuTile(this);
             case QSConstants.TILE_NAVBAR:
                 return new NavBarTile(this);
+	    case QSConstants.TILE_TRDS:
+		return new TrdsTile(this);
             default:
                 throw new IllegalArgumentException("Bad tile spec: " + tileSpec);
         }
