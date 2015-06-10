@@ -76,4 +76,8 @@
     <color name="task_item_background">#0000</color>
     <color name="task_item_text">#ffffffff</color>
 
+    <!-- Expanded Status Bar Weather Text Colors -->
+    <color name="status_bar_temperature_text_color">#FFFFFFFF</color>
+    <color name="status_bar_temperature_location_text_color">#FFFFFFFF</color>
+
 </resources>
