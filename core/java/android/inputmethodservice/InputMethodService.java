@@ -326,7 +326,6 @@ public class InputMethodService extends AbstractInputMethodService {
     int mStatusIcon;
     int mBackDisposition;
 
-    boolean mForcedAutoRotate;
     Handler mHandler;
 
     private IStatusBarService mStatusBarService;
@@ -1485,28 +1484,6 @@ public class InputMethodService extends AbstractInputMethodService {
             mWindowWasVisible = true;
             mInShowWindow = false;
         }
-
-        IStatusBarService statusbar = getStatusBarService();
-        int mKeyboardRotationTimeout = Settings.System.getIntForUser(getContentResolver(),
-                Settings.System.KEYBOARD_ROTATION_TIMEOUT, 0, UserHandle.USER_CURRENT_OR_SELF);
-        if (mKeyboardRotationTimeout > 0) {
-            mHandler.removeCallbacks(restoreAutoRotation);
-            if (!mForcedAutoRotate) {
-                boolean isAutoRotate = (Settings.System.getIntForUser(getContentResolver(),
-                    Settings.System.ACCELEROMETER_ROTATION, 0,
-                    UserHandle.USER_CURRENT_OR_SELF) == 1);
-                if (!isAutoRotate) {
-                    try {
-                        if (statusbar != null) {
-                            statusbar.setAutoRotate(true);
-                            mForcedAutoRotate = true;
-                        }
-                    } catch (RemoteException e) {
-                        mStatusBarService = null;
-                    }
-                }
-            }
-        }
     }
 
     void showWindowInner(boolean showInput) {
@@ -1598,29 +1575,6 @@ public class InputMethodService extends AbstractInputMethodService {
             }
         } catch (RemoteException e) {
             mEdgeGestureService = null;
-        }
-
-        int mKeyboardRotationTimeout = Settings.System.getIntForUser(getContentResolver(),
-                Settings.System.KEYBOARD_ROTATION_TIMEOUT, 0, UserHandle.USER_CURRENT_OR_SELF);
-        if (mKeyboardRotationTimeout > 0) {
-            mHandler.removeCallbacks(restoreAutoRotation);
-            if (mForcedAutoRotate) {
-                mHandler.postDelayed(restoreAutoRotation, mKeyboardRotationTimeout);
-            }
-        }
-    }
-
-    final Runnable restoreAutoRotation = new Runnable() {
-        @Override public void run() {
-            try {
-                IStatusBarService statusbar = getStatusBarService();
-                if (statusbar != null) {
-                    statusbar.setAutoRotate(false);
-                }
-                mForcedAutoRotate = false;
-            } catch (RemoteException e) {
-                mStatusBarService = null;
-            }
         }
     };
 

@@ -50,6 +50,5 @@ oneway interface IStatusBar
     void toggleKillApp();
     void toggleScreenshot();
     void setPieTriggerMask(int newMask, boolean lock);
-    void setAutoRotate(boolean enabled);
 }
 
