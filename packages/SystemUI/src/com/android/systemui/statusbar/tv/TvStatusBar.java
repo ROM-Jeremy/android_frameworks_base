@@ -141,6 +141,11 @@ public class TvStatusBar extends BaseStatusBar {
         return true;
     }
 
+    @Override
+    public boolean isExpandedVisible() {
+        return false;
+    }
+
     public View getStatusBarView() {
         return null;
     }
@@ -172,6 +177,10 @@ public class TvStatusBar extends BaseStatusBar {
 
     @Override
     protected void createAndAddWindows() {
+    }
+
+    @Override
+    public void hideHeadsUp() {
     }
 
     @Override

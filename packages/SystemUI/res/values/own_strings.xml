@@ -201,4 +201,9 @@
     <string name="tasklist_memory_usage">"Free/Total Memory: <xliff:g id="number">%s</xliff:g> / <xliff:g id="name">%s</xliff:g>"</string>
     <string name="message_keep_one_launcher">Should keep at lease one home activity!</string>
 
+    <!-- Heads up toast -->
+    <string name="heads_up_enabled">Heads up notifications are enabled</string>
+    <string name="heads_up_disabled">Heads up notifications are disabled</string>
+	<string name="heads_up_snooze_message">Heads up is snoozed for <xliff:g id="number">%d</xliff:g> minute in dismissed package.</string>
+	
 </resources>

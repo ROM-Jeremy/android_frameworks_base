@@ -114,4 +114,7 @@
   <string name="tasklist_memory_usage">"Totaal vrij geheugen: <xliff:g id="number">%s</xliff:g> / <xliff:g id="name">%s</xliff:g>"</string>
   <string name="message_keep_one_launcher">1 Home activiteit moet open blijven!</string>
   <string name="quick_settings_sync_off">Sync Uitgeschakeld</string>
+  <string name="heads_up_enabled">Heads up notificaties zijn ingeschakeld</string>
+  <string name="heads_up_disabled">Heads up notificaties zijn uitgeschakeld</string>
+  <string name="heads_up_snooze_message">Heads up is <xliff:g id="number">%d</xliff:g> minuten gesnoozed in weggeveegd pakket.</string>
 </resources>

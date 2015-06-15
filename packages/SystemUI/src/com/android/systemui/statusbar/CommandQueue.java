@@ -107,6 +107,7 @@ public class CommandQueue extends IStatusBar.Stub {
         public void notificationLightOff();
         public void notificationLightPulse(int argb, int onMillis, int offMillis);
         public void showScreenPinningRequest();
+        public void scheduleHeadsUpClose();
         public void showCustomIntentAfterKeyguard(Intent intent);
         public void toggleLastApp();
         public void toggleKillApp();
@@ -305,6 +306,13 @@ public class CommandQueue extends IStatusBar.Stub {
         mPaused = false;
     }
 
+    public void scheduleHeadsUpClose() {
+        synchronized (mList) {
+            mHandler.removeMessages(MSG_HIDE_HEADS_UP);
+            mHandler.sendEmptyMessage(MSG_HIDE_HEADS_UP);
+        }
+    }
+
     private final class H extends Handler {
         public void handleMessage(Message msg) {
             if (mPaused) {
@@ -403,8 +411,12 @@ public class CommandQueue extends IStatusBar.Stub {
                 case MSG_TOGGLE_SCREENSHOT:
                     mCallbacks.toggleScreenshot();
                     break;
+                case MSG_HIDE_HEADS_UP:
+                    mCallbacks.scheduleHeadsUpClose();
+                    break;
                 case MSG_SET_PIE_TRIGGER_MASK:
                     mCallbacks.setPieTriggerMask(msg.arg1, msg.arg2 != 0);
+                    break;
             }
         }
     }
