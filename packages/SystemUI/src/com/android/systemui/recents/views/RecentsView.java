@@ -71,6 +71,7 @@ public class RecentsView extends FrameLayout implements TaskStackView.TaskStackV
     View mSearchBar;
     RecentsViewCallbacks mCb;
     View mClearRecents;
+    View mFloatingButton;
 
     public RecentsView(Context context) {
         super(context);
@@ -356,19 +357,29 @@ public class RecentsView extends FrameLayout implements TaskStackView.TaskStackV
         boolean showClearAllRecents = Settings.System.getInt(mContext.getContentResolver(),
                 Settings.System.SHOW_CLEAR_ALL_RECENTS, 1) == 1;
 
-        if (mClearRecents != null && showClearAllRecents) {
+        if (mFloatingButton != null && showClearAllRecents) {
             int clearRecentsLocation = Settings.System.getInt(mContext.getContentResolver(),
-                    Settings.System.RECENTS_CLEAR_ALL_LOCATION, Constants.DebugFlags.App.RECENTS_CLEAR_ALL_TOP_RIGHT);
+                    Settings.System.RECENTS_CLEAR_ALL_LOCATION, Constants.DebugFlags.App.RECENTS_CLEAR_ALL_BOTTOM_RIGHT);
             FrameLayout.LayoutParams params = (FrameLayout.LayoutParams)
-                    mClearRecents.getLayoutParams();
+                    mFloatingButton.getLayoutParams();
             params.topMargin = taskStackBounds.top;
             switch (clearRecentsLocation) {
                 case Constants.DebugFlags.App.RECENTS_CLEAR_ALL_TOP_LEFT:
                     params.gravity = Gravity.TOP | Gravity.LEFT;
                     break;
                 case Constants.DebugFlags.App.RECENTS_CLEAR_ALL_TOP_RIGHT:
-                default:
                     params.gravity = Gravity.TOP | Gravity.RIGHT;
+                    break;
+                case Constants.DebugFlags.App.RECENTS_CLEAR_ALL_BOTTOM_LEFT:
+                    params.gravity = Gravity.BOTTOM | Gravity.LEFT;
+                    break;
+                case Constants.DebugFlags.App.RECENTS_CLEAR_ALL_BOTTOM_CENTER:
+                default:
+                    params.gravity = Gravity.BOTTOM | Gravity.CENTER;
+                    break;
+                case Constants.DebugFlags.App.RECENTS_CLEAR_ALL_BOTTOM_RIGHT:
+                default:
+                    params.gravity = Gravity.BOTTOM | Gravity.RIGHT;
                     break;
             }
             if (mSearchBar != null && (searchBarSpaceBounds.width() > taskViewWidth)) {
@@ -380,11 +391,10 @@ public class RecentsView extends FrameLayout implements TaskStackView.TaskStackV
 
                 // If very close to the screen edge, align to it
                 if (params.rightMargin < mClearRecents.getWidth())
-                    params.rightMargin = width - taskStackBounds.right;
             }
-            mClearRecents.setLayoutParams(params);
+            mFloatingButton.setLayoutParams(params);
         } else {
-            mClearRecents.setVisibility(View.GONE);
+           mFloatingButton.setVisibility(View.GONE);
         }
 
         setMeasuredDimension(width, height);
@@ -399,6 +409,7 @@ public class RecentsView extends FrameLayout implements TaskStackView.TaskStackV
     @Override
     protected void onAttachedToWindow () {
         super.onAttachedToWindow();
+        mFloatingButton = ((View)getParent()).findViewById(R.id.floating_action_button);
         mClearRecents = ((View)getParent()).findViewById(R.id.clear_recents);
         mClearRecents.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
