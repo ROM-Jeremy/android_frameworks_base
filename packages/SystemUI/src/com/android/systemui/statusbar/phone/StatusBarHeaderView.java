@@ -153,6 +153,8 @@ public class StatusBarHeaderView extends RelativeLayout implements View.OnClickL
     private boolean mShowWeather;
     private boolean mShowBatteryTextExpanded;
 
+    private boolean mQSCSwitch = false;
+
     public StatusBarHeaderView(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
@@ -856,6 +858,8 @@ public class StatusBarHeaderView extends RelativeLayout implements View.OnClickL
 
         private void handleShowingDetail(final QSTile.DetailAdapter detail) {
             final boolean showingDetail = detail != null;
+            mQSCSwitch = Settings.System.getInt(getContext().getContentResolver(),
+                    Settings.System.QS_COLOR_SWITCH, 0) == 1;
             transition(mClock, !showingDetail);
             transition(mDateGroup, !showingDetail);
             if (mShowWeather) {
@@ -867,7 +871,13 @@ public class StatusBarHeaderView extends RelativeLayout implements View.OnClickL
             transition(mQsDetailHeader, showingDetail);
             mShowingDetail = showingDetail;
             if (showingDetail) {
+                int color = Settings.System.getInt(
+                        getContext().getContentResolver(),
+                        Settings.System.QS_TEXT_COLOR, 0xffffffff);
                 mQsDetailHeaderTitle.setText(detail.getTitle());
+                if (mQSCSwitch) {
+                    mQsDetailHeaderTitle.setTextColor(color);
+                }
                 final Boolean toggleState = detail.getToggleState();
                 if (toggleState == null) {
                     mQsDetailHeaderSwitch.setVisibility(INVISIBLE);
@@ -927,6 +937,9 @@ public class StatusBarHeaderView extends RelativeLayout implements View.OnClickL
                     UserHandle.USER_ALL);
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.ENABLE_TASK_MANAGER), false, this);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.QS_COLOR_SWITCH), false, this,
+                    UserHandle.USER_ALL);
             update();
         }
 
@@ -962,6 +975,10 @@ public class StatusBarHeaderView extends RelativeLayout implements View.OnClickL
                     resolver, Settings.System.STATUS_BAR_SHOW_WEATHER, 1) == 1;
             mShowTaskManager = Settings.System.getIntForUser(resolver,
                     Settings.System.ENABLE_TASK_MANAGER, 0, currentUserId) == 1;
+
+            mQSCSwitch = Settings.System.getInt(
+                    resolver, Settings.System.QS_COLOR_SWITCH, 0) == 1;
+
             updateVisibilities();
             requestCaptureValues();
         }

@@ -21,12 +21,15 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
 import android.animation.ValueAnimator;
+import android.database.ContentObserver;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.PorterDuff.Mode;
+import android.net.Uri;
 import android.os.Handler;
 import android.os.PowerManager;
 import android.os.UserHandle;
@@ -97,6 +100,10 @@ public class NotificationPanelView extends PanelView implements
     private int mTrackingPointer;
     private VelocityTracker mVelocityTracker;
     private boolean mQsTracking;
+
+    private int mQSBackgroundColor;
+    private boolean mQSShadeTransparency = false;
+    private boolean mQSCSwitch = false;
 
     /**
      * Handles launching the secure camera properly even when other applications may be using the
@@ -274,6 +281,13 @@ public class NotificationPanelView extends PanelView implements
                 }
             }
         });
+
+        mQSCSwitch = Settings.System.getInt(getContext().getContentResolver(),
+                Settings.System.QS_COLOR_SWITCH, 0) == 1;
+
+        if (mQSCSwitch) {
+            setQSBackgroundColor();
+        }
     }
 
     @Override
@@ -2108,6 +2122,14 @@ public class NotificationPanelView extends PanelView implements
                     Settings.System.DOUBLE_TAP_SLEEP_GESTURE), false, this, UserHandle.USER_ALL);
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.ENABLE_TASK_MANAGER), false, this, UserHandle.USER_ALL);
+             resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.QS_BACKGROUND_COLOR), false, this);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.QS_ICON_COLOR), false, this);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.QS_TEXT_COLOR), false, this);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.QS_TRANSPARENT_SHADE), false, this);
             update();
         }
 
@@ -2117,6 +2139,30 @@ public class NotificationPanelView extends PanelView implements
             mContext.getContentResolver().unregisterContentObserver(this);
         }
 
+         @Override
+         public void onChange(boolean selfChange, Uri uri) {
+            update();
+            ContentResolver resolver = mContext.getContentResolver();
+            if (uri.equals(Settings.System.getUriFor(
+                    Settings.System.QS_COLOR_SWITCH))) {
+                if (uri.equals(Settings.System.getUriFor(
+                        Settings.System.QS_BACKGROUND_COLOR))
+                    || uri.equals(Settings.System.getUriFor(
+                        Settings.System.QS_TRANSPARENT_SHADE))) {
+                    mQSBackgroundColor = Settings.System.getInt(
+                            resolver, Settings.System.QS_BACKGROUND_COLOR, 0xff263238);
+                    mQSShadeTransparency = Settings.System.getInt(
+                            resolver, Settings.System.QS_TRANSPARENT_SHADE, 0) == 1;
+                    setQSBackgroundColor();
+                } else if (uri.equals(Settings.System.getUriFor(
+                        Settings.System.QS_ICON_COLOR))
+                    || uri.equals(Settings.System.getUriFor(
+                        Settings.System.QS_TEXT_COLOR))) {
+                    setQSColors();
+                };
+            }
+         }
+         
         @Override
         public void update() {
             ContentResolver resolver = mContext.getContentResolver();
@@ -2126,6 +2172,42 @@ public class NotificationPanelView extends PanelView implements
                     Settings.System.DOUBLE_TAP_SLEEP_GESTURE, 1, UserHandle.USER_CURRENT) == 1;
             mShowTaskManager = Settings.System.getIntForUser(resolver,
                     Settings.System.ENABLE_TASK_MANAGER, 0, UserHandle.USER_CURRENT) == 1;
+            mQSCSwitch = Settings.System.getInt(
+                    resolver, Settings.System.QS_COLOR_SWITCH, 0) == 1;
+			mQSBackgroundColor = Settings.System.getInt(
+                    resolver, Settings.System.QS_BACKGROUND_COLOR, 0xff263238);
+            mQSShadeTransparency = Settings.System.getInt(
+                    resolver, Settings.System.QS_TRANSPARENT_SHADE, 0) == 1;
+            if (mQSCSwitch) {
+                setQSBackgroundColor();
+                setQSColors();
+            }
+        }
+    }
+
+    private void setQSBackgroundColor() {
+        ContentResolver resolver = mContext.getContentResolver();
+        mQSBackgroundColor = Settings.System.getInt(
+                resolver, Settings.System.QS_BACKGROUND_COLOR, 0xff263238);
+        mQSShadeTransparency = Settings.System.getInt(mContext.getContentResolver(),
+            Settings.System.QS_TRANSPARENT_SHADE, 0) == 1;
+        if (mQsContainer != null) {
+            if (mQSShadeTransparency) {
+                mQsContainer.getBackground().setColorFilter(
+                        mQSBackgroundColor, Mode.MULTIPLY);
+            } else {
+                mQsContainer.getBackground().setColorFilter(
+                        mQSBackgroundColor, Mode.SRC_OVER);
+            }
+        }
+        if (mQsPanel != null) {
+            mQsPanel.setDetailBackgroundColor(mQSBackgroundColor);
+        }
+    }
+
+    private void setQSColors() {
+        if (mQsPanel != null) {
+            mQsPanel.setColors();
         }
     }
 }

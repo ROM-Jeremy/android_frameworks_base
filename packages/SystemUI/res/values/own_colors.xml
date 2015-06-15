@@ -97,4 +97,6 @@
     <!-- Used by selector -->
     <color name="card_pressed">#7e3c3c3c</color>
 
+	<color name="qs_background_drawable_color">#ff263238</color>
+	
 </resources>
