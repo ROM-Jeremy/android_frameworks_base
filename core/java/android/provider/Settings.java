@@ -2316,6 +2316,12 @@ public final class Settings {
          */
         public static final String QS_COLOR_SWITCH = "qs_color_switch";
 
+         /**
+         * show the membar in recents
+         *  @hide
+         */
+        public static final String SYSTEMUI_RECENTS_MEM_DISPLAY = "systemui_recents_mem_display";
+
         /**
          * Control whether the process CPU usage meter should be shown.
          *
