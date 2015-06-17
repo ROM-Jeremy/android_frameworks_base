@@ -293,12 +293,12 @@ public class NavigationBarView extends LinearLayout implements BaseStatusBar.Nav
         if (mDelegateHelper != null && mDelegateIntercepted) {
             boolean ret = mDelegateHelper.onInterceptTouchEvent(event);
             if (ret) return true;
-        }
-        return super.onTouchEvent(event);
+        }   
         if (Settings.System.getInt(mContext.getContentResolver(),
                     Settings.System.DOUBLE_TAP_SLEEP_NAVBAR, 0) == 1)
             mDoubleTapGesture.onTouchEvent(event);
 
+        return super.onTouchEvent(event);
     }
 
     private void initDownStates(MotionEvent ev) {

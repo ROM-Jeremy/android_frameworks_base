@@ -2226,19 +2226,6 @@ public final class Settings {
         public static final String BUTTON_BACKLIGHT_TIMEOUT = Secure.BUTTON_BACKLIGHT_TIMEOUT;
 
         /**
-         * Whether privacy guard notification should show.
-         * @hide
-         */
-        public static final String PRIVACY_GUARD_NOTIFICATION = "privacy_guard_notification";
-
-        /**
-         * Whether user is allowed to pull down quick settings on secure keyguard.
-         * @hide
-         */
-        public static final String STATUS_BAR_LOCKED_ON_SECURE_KEYGUARD
-                = "status_bar_locked_on_secure_keyguard";
-
-        /**
          * Whether to allow one finger quick settings expansion on the right side of the statusbar.
          * @deprecated Use {@link android.provider.Settings.System#QS_QUICK_PULLDOWN} instead
          * @hide
@@ -3525,12 +3512,6 @@ public final class Settings {
          * @hide
          */
         public static final String DOUBLE_TAP_SLEEP_ANYWHERE = "double_tap_sleep_anywhere";
-
-        /**
-         * Long press on lock screen lock icon to sleep
-         * @hide
-         */
-        public static final String LONG_PRESS_LOCK_ICON_TO_SLEEP = "long_press_lock_icon_to_sleep";
 
         /**
          * Boolean value on whether to show weather in the statusbar
@@ -5184,6 +5165,12 @@ public final class Settings {
         public static final String LOCKSCREEN_TARGETS = "lockscreen_target_actions";
 
         /**
+         * Long press on lock screen lock icon to sleep
+         * @hide
+         */
+        public static final String LONG_PRESS_LOCK_ICON_TO_SLEEP = "long_press_lock_icon_to_sleep";
+
+        /**
          * Comma-separated list of location providers that activities may access. Do not rely on
          * this value being present in settings.db or on ContentObserver notifications on the
          * corresponding Uri.
@@ -6553,6 +6540,13 @@ public final class Settings {
         public static final String DEVELOPMENT_SHORTCUT = "development_shortcut";
 
         /**
+         * Whether user is allowed to pull down quick settings on secure keyguard.
+         * @hide
+         */
+        public static final String STATUS_BAR_LOCKED_ON_SECURE_KEYGUARD
+                = "status_bar_locked_on_secure_keyguard";
+                
+        /**
          * Global stats collection
          * @hide
          */
@@ -6740,7 +6734,6 @@ public final class Settings {
             PRIVACY_GUARD_DEFAULT,
             ADVANCED_REBOOT,
             DEVELOPMENT_SHORTCUT,
-            PRIVACY_GUARD_NOTIFICATION,
             STATUS_BAR_LOCKED_ON_SECURE_KEYGUARD
         };
 
