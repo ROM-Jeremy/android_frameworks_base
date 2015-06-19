@@ -740,6 +740,7 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                     Settings.Global.HEADS_UP_OFF);
             mHeadsUpTicker = mUseHeadsUp && 0 != Settings.Global.getInt(
                     mContext.getContentResolver(), SETTING_HEADS_UP_TICKER, 0);
+            mTickerEnabled = !mUseHeadsUp;
             Log.d(TAG, "heads up is " + (mUseHeadsUp ? "enabled" : "disabled"));
             mHeadsUpUserEnabled = 0 != Settings.System.getIntForUser(
                     mContext.getContentResolver(), Settings.System.HEADS_UP_USER_ENABLED,
@@ -756,6 +757,7 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                     addHeadsUpView();
                 }
             }
+            initTickerView();
         }
     };
 
@@ -963,7 +965,7 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         }
 
         // Lastly, call to the icon policy to install/update all the icons.
-        mIconPolicy = new PhoneStatusBarPolicy(mContext, mCastController, mSuController);
+        mIconPolicy = new PhoneStatusBarPolicy(mContext, mCastController, mHotspotController, mSuController);
         mSettingsObserver.onChange(false); // set up
 
         mHeadsUpObserver.onChange(true); // set up
@@ -1158,17 +1160,7 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                         R.id.keyguard_indication_text));
         mKeyguardBottomArea.setKeyguardIndicationController(mKeyguardIndicationController);
 
-        mTickerEnabled = res.getBoolean(R.bool.enable_ticker);
-        if (mTickerEnabled) {
-            final ViewStub tickerStub = (ViewStub) mStatusBarView.findViewById(R.id.ticker_stub);
-            if (tickerStub != null) {
-                mTickerView = tickerStub.inflate();
-                mTicker = new MyTicker(context, mStatusBarView);
-
-                TickerView tickerView = (TickerView) mStatusBarView.findViewById(R.id.tickerText);
-                tickerView.mTicker = mTicker;
-            }
-        }
+        initTickerView();
 
         mEdgeBorder = res.getDimensionPixelSize(R.dimen.status_bar_edge_ignore);
 
@@ -1487,6 +1479,21 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
 
     public StatusBarWindowView getStatusBarWindow() {
         return mStatusBarWindow;
+    }
+
+    private void initTickerView() {
+        if (mTickerEnabled && (mTicker == null || mTickerView == null)) {
+            final ViewStub tickerStub = (ViewStub) mStatusBarView.findViewById(R.id.ticker_stub);
+            if (tickerStub != null) {
+                mTickerView = tickerStub.inflate();
+                mTicker = new MyTicker(mContext, mStatusBarView);
+
+                TickerView tickerView = (TickerView) mStatusBarView.findViewById(R.id.tickerText);
+                tickerView.mTicker = mTicker;
+            } else {
+                mTickerEnabled = false;
+            }
+        }
     }
 
     @Override
@@ -1931,7 +1938,7 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
 
         if (old != null) {
             // Cancel the ticker if it's still running
-            if (mTickerEnabled) {
+            if (mTickerEnabled && shouldInterrupt(old)) {
                 mTicker.removeEntry(old);
             }
 
@@ -2440,6 +2447,9 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
 
         final boolean hasBackdrop = backdropBitmap != null;
         mKeyguardShowingMedia = hasBackdrop;
+        if (mStatusBarWindowManager != null) {
+            mStatusBarWindowManager.setShowingMedia(mKeyguardShowingMedia);
+        }
 
         if ((hasBackdrop || DEBUG_MEDIA_FAKE_ARTWORK)
                 && (mState == StatusBarState.KEYGUARD || mState == StatusBarState.SHADE_LOCKED)) {
@@ -3514,7 +3524,8 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         // because...  well, what's the point otherwise?  And trying to
         // run a ticker without being attached will crash!
         if (n.getNotification().tickerText != null && mStatusBarWindow != null
-                && mStatusBarWindow.getWindowToken() != null) {
+                && mStatusBarWindow.getWindowToken() != null
+                && shouldInterrupt(n)) {
             if (0 == (mDisabled & (StatusBarManager.DISABLE_NOTIFICATION_ICONS
                     | StatusBarManager.DISABLE_NOTIFICATION_TICKER))) {
                 mTicker.addEntry(n);
@@ -3770,6 +3781,7 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         makeStatusBarView();
         mStatusBarWindow.addContent(mStatusBarWindowContent);
         mStatusBarWindowManager = new StatusBarWindowManager(mContext, mKeyguardMonitor);
+        mStatusBarWindowManager.setShowingMedia(mKeyguardShowingMedia);
         mStatusBarWindowManager.add(mStatusBarWindow, getStatusBarHeight());
     }
 
@@ -4857,6 +4869,7 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         }
         mState = state;
         mStatusBarWindowManager.setStatusBarState(state);
+        logStateToEventlog();
     }
 
     @Override

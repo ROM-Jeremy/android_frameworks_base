@@ -99,4 +99,10 @@
 
 	<color name="qs_background_drawable_color">#ff263238</color>
 	
+    <!-- Expanded Status Bar Alarm Status Text Color -->
+    <color name="status_bar_alarm_status_text_color">#64ffffff</color>
+
+    <!-- Expanded Status Bar Battery Level Text Color -->
+    <color name="status_bar_battery_level_text_color">#ffffff</color>
+
 </resources>
