@@ -1,3 +1,4 @@
+
 /*
  * Copyright (C) 2014 The Android Open Source Project
  *
@@ -26,8 +27,8 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Point;
-import android.net.Uri;
 import android.graphics.PorterDuff.Mode;
+import android.net.Uri;
 import android.os.Handler;
 import android.os.Message;
 import android.os.UserHandle;
@@ -164,6 +165,9 @@ public class QSPanel extends ViewGroup {
      */
     private int useFourColumns() {
         final Resources res = mContext.getResources();
+        mUseFourColumns = Settings.Secure.getInt(
+            mContext.getContentResolver(), Settings.Secure.QS_USE_FOUR_COLUMNS,
+                0) == 1;
         if (mUseFourColumns) {
             mNumberOfColumns = 4;
         } else {
@@ -184,7 +188,7 @@ public class QSPanel extends ViewGroup {
             mDetailDoneButton.setTextColor(textColor);
             mDetailSettingsButton.setTextColor(textColor);
         }
-    }
+     }
 
     public void setBrightnessMirror(BrightnessMirrorController c) {
         super.onFinishInflate();
@@ -220,12 +224,13 @@ public class QSPanel extends ViewGroup {
         final int columns = Math.max(1, useFourColumns());
         mCellHeight = res.getDimensionPixelSize(R.dimen.qs_tile_height);
         if (mUseFourColumns) {
-            mCellWidth = (int)(mCellHeight * TILE_ASPECT_SMALL);
+            mCellWidth = (int)(mCellHeight * 0.8f);
         } else {
             mCellWidth = (int)(mCellHeight * TILE_ASPECT);
+            
         }
-        mLargeCellHeight = res.getDimensionPixelSize(R.dimen.qs_dual_tile_height);
         mLargeCellWidth = (int)(mLargeCellHeight * TILE_ASPECT);
+        mLargeCellHeight = res.getDimensionPixelSize(R.dimen.qs_dual_tile_height);
         mPanelPaddingBottom = res.getDimensionPixelSize(R.dimen.qs_panel_padding_bottom);
         mDualTileUnderlap = res.getDimensionPixelSize(R.dimen.qs_dual_tile_padding_vertical);
         mBrightnessPaddingTop = res.getDimensionPixelSize(R.dimen.qs_brightness_padding_top);
@@ -245,7 +250,7 @@ public class QSPanel extends ViewGroup {
         super.onConfigurationChanged(newConfig);
         FontSizeUtils.updateFontSize(mDetailDoneButton, R.dimen.qs_detail_button_text_size);
         FontSizeUtils.updateFontSize(mDetailSettingsButton, R.dimen.qs_detail_button_text_size);
-        FontSizeUtils.updateFontSize(mDetailRemoveButton, R.dimen.qs_detail_button_text_size);
+		FontSizeUtils.updateFontSize(mDetailRemoveButton, R.dimen.qs_detail_button_text_size);
 
         // We need to poke the detail views as well as they might not be attached to the view
         // hierarchy but reused at a later point.
