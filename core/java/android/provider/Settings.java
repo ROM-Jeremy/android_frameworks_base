@@ -3704,6 +3704,13 @@ public final class Settings {
         public static final String NAVBAR_LEFT_IN_LANDSCAPE = "navigation_bar_left";
 
         /**
+         * Wether to show the ticker on the status bar
+         *
+         * @hide
+         */
+        public static final String STATUS_BAR_SHOW_TICKER = "status_bar_show_show_ticker";
+
+        /**
          * Whether pie controls are enabled
          * @hide
          */
