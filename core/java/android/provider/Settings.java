@@ -3954,6 +3954,8 @@ public final class Settings {
         /** @hide */ public static final int HEADS_UP_USER_OFF = 0;
         /** @hide */ public static final int HEADS_UP_USER_ON = 1;
 
+	/** @hide */ public static final String ANSWER_VOLUME_BUTTON_BEHAVIOR_ANSWER = "call_volume_answer";
+
         /**
          * Hide notification instead of remove when swiping headsup
          * @hide
@@ -3992,7 +3994,6 @@ public final class Settings {
          * @hide
          */
         public static final String FORCE_EXPANDED_NOTIFICATIONS = "force_expanded_notifications";
-        
         /**
          * The statusbar configuration to be used for its creation in SystemUI
          * Fallback is the config_statusBarComponent value
