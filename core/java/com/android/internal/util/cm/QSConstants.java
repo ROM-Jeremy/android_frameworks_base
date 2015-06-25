@@ -62,6 +62,7 @@ public class QSConstants {
 
     protected static final ArrayList<String> STATIC_TILES_AVAILABLE = new ArrayList<String>();
     protected static final ArrayList<String> DYNAMIC_TILES_AVAILABLE = new ArrayList<String>();
+    protected static final ArrayList<String> TILES_AVAILABLE = new ArrayList<String>();
 
     static {
         STATIC_TILES_AVAILABLE.add(TILE_SCREENSHOT);
