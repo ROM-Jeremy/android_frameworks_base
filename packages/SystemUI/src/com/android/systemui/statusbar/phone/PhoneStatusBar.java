@@ -484,6 +484,9 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                     Settings.System.ENABLE_TASK_MANAGER),
                     false, this, UserHandle.USER_ALL);
             resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.NOTIFICATION_DRAWER_CLEAR_ALL_ICON_COLOR),
+                    false, this, UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.STATUS_BAR_SHOW_TICKER),
                     false, this, UserHandle.USER_ALL);
             resolver.registerContentObserver(Settings.System.getUriFor(
@@ -1174,10 +1177,13 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                         R.id.keyguard_indication_text));
         mKeyguardBottomArea.setKeyguardIndicationController(mKeyguardIndicationController);
 
+<<<<<<< HEAD
+=======
         mTickerEnabled = Settings.System.getIntForUser(mContext.getContentResolver(),
                     Settings.System.STATUS_BAR_SHOW_TICKER,
                     mContext.getResources().getBoolean(R.bool.enable_ticker)
                             ? 1 : 0, UserHandle.USER_CURRENT) == 1;
+>>>>>>> 5a90c1c... Revert "Revert "FWB: Notification ticker (1/2)""
         initTickerView();
 
         mEdgeBorder = res.getDimensionPixelSize(R.dimen.status_bar_edge_ignore);
@@ -1512,7 +1518,11 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                 mTickerEnabled = false;
             }
         }
+<<<<<<< HEAD
     }
+=======
+    }    
+>>>>>>> 5a90c1c... Revert "Revert "FWB: Notification ticker (1/2)""
 
     @Override
     protected WindowManager.LayoutParams getSearchLayoutParams(LayoutParams layoutParams) {
