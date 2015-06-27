@@ -1080,11 +1080,8 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
             public boolean onTouch(View v, MotionEvent event) {
                 checkUserAutohide(v, event);
                 return false;
-
             }
-        } catch (RemoteException ex) {
-            // no window manager? good luck with that
-        }
+		});
 
         // Setup pie container if enabled
         attachPieContainer(isPieEnabled());
