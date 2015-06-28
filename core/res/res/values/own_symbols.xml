@@ -423,4 +423,7 @@
   <java-symbol type="anim" name="recent_screen_enter_left" />
   <java-symbol type="anim" name="recent_screen_fade_out" />
 
+  <!-- Hardware keys on/off option -->
+  <java-symbol type="bool" name="config_hwKeysPref" />
+
 </resources>
